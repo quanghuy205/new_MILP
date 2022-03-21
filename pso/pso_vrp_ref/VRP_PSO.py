@@ -53,7 +53,7 @@ def readdata(name_of_file):
 
     return vehicle_total_capacity, no_of_customers-1, matrix_distance,customer_demand, x, y
 
-#-------------------------------------[calling dataset function to read values]-----------------------------------------------
+#------------------v-------------------[calling dataset function to read values]-----------------------------------------------
 
 fileName=input("Enter file name: ")
 start_time = time.time()
@@ -73,10 +73,10 @@ length=0
 
 
 #Calling PSO
-Sol  = PSO.particle_swarm_optimization(total_customers, demand_matrix, distance_matrix, capacity_of_vehicle, 10, Iterations)
+Sol  = PSO.particle_swarm_optimization(total_customers, demand_matrix, distance_matrix, capacity_of_vehicle, 100, Iterations)
 
 
-customer_count_serve = PSO.( total_customers, capacity_of_vehicle, demand_matrix, Sol)
+customer_count_serve = PSO.customers_served_by_each_vehicle( total_customers, capacity_of_vehicle, demand_matrix, Sol)
 
 total_required_vehicles = len(customer_count_serve)
 

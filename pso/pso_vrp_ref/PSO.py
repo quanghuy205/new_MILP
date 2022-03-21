@@ -95,7 +95,8 @@ def sorting_customers(t1,t2):
 #function that gives the fitness candidate i.e., the distance calculated for each generation
 def fitness_value(particleposition, customers, demmatrix, distmatrix, vehicle_capacity):
     particle_customer_list=sorting_customers(list(range(1,customers+1)),particleposition)
-    value_2=min_distance_traverse(customers, demmatrix, distmatrix, vehicle_capacity, [particle_customer_list])
+    print("list", particle_customer_list)
+    value_2 = min_distance_traverse(customers, demmatrix, distmatrix, vehicle_capacity, [particle_customer_list])
 
     return value_2[0]
 
@@ -116,7 +117,6 @@ def particle_swarm_optimization(customers, demmatrix, distmatrix, vehicle_capaci
     vector_velocity = [[] for i in range(number_of_particles)]
 
 #initializing position and vector values with random values within a specific range
-
     for i in range(number_of_particles):
         for j in range(customers):
             #vector_position_particle[i][j] represents position of jth customer for particle number ith 
@@ -124,7 +124,9 @@ def particle_swarm_optimization(customers, demmatrix, distmatrix, vehicle_capaci
             vector_velocity[i].append(random.random()*random.randrange(-30,30))
     #initially the pbest position vector will be the particle position value itself
     pb_position = vector_position_particle
-    
+
+    print("pb", pb_position)
+
     pb_fitness = [20000000 for i in range(number_of_particles)] #represents fitness for personal best
     gb_fitness = 20000000                         #represents fitness for global best 
     #initially it is assigned particle's first position values

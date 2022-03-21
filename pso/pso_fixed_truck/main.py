@@ -6,7 +6,7 @@ from collections import Counter
 # parameters
 n_particles = 20
 n_iteration = 200
-numofcar = 3
+numofcar = 2
 capofcar = 100
 numOfDest = 15
 numofdrone = 3
@@ -16,7 +16,8 @@ c2 = 2
 
 destination = np.arange(1,numOfDest+1)
 
-particles = np.zeros((n_particles, numOfDest), dtype=int) 
+particles = np.zeros((n_particles, numOfDest), dtype=int)
+print(particles)
 velocities = np.zeros((n_particles, 15))
 
 for i in range(n_particles):
@@ -47,7 +48,7 @@ def car(particles, demandpar):
     demandcopy = demandpar.copy()            
     return car_particle
 
-def diskrit(new_position):    
+def discrete(new_position):
     interval_x = (max(new_position)-min(new_position))/new_position.shape[0]
     interval = []
     for i in range(new_position.shape[0]):
@@ -151,10 +152,11 @@ while it < n_iteration:
         r2 = round(random.random(),4) 
         new_velocity = (W*velocities[i]) + (c1*r1*(pbest_location[i] - particles[i])) + (c2*r2*(gbest_location-particles[i]))
         new_position = new_velocity.round(4) + particles[i]
-        new_position = diskrit(new_position)
+        new_position = discrete(new_position)
         
         #new_position = checkfeasibility(new_position)
         #check boundary violation
+
         new_position = boundary_violation(new_position)
         particles[i] = new_position.copy()
         velocities[i] = new_velocity.copy()
@@ -174,4 +176,6 @@ for i in range(numofcar):
     num_vehicle = np.where(carpar==i)[0]
     print('Truck', i+1, gbest_location[num_vehicle])
 
+for i in range(numofdrone):
 
+    print('Drone', i+1)
