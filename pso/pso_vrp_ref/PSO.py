@@ -18,7 +18,7 @@ def customers_served_by_each_vehicle(customers,vehicle_capacity,demmatrix,cs):  
         serve=0
         
         for j in range(sum(served_customers),sc):
-            if demmatrix[cs[j]]+cap >vehicle_capacity:   #if capacity exceeds vehicle's total capacity, get out of loop
+            if demmatrix[cs[j]]+cap > vehicle_capacity:   #if capacity exceeds vehicle's total capacity, get out of loop
                  break
             else:
                 serve=serve+1    #increment of one more customer served
