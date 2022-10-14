@@ -5,14 +5,9 @@ class Data():
         self.num_of_customer = None #including depot
         self.X = None
         self.Y = None
-
-        self.num_of_truck = 1
+        self.num_of_truck = 2
         self.num_of_cargo_drone = 1
-        self.num_of_small_drone = 2
-        self.truck_speed = 30
-        self.drone_speed = 40
-        self.phi_low = 0.002
-        self.phi_high = 0.02
+        self.num_of_drone = 2
         self.truck_capacity = None
         self.small_drone_capacity = None
         self.distance_matrix = None
@@ -20,7 +15,36 @@ class Data():
         self.truck_time_matrix = None
         self.drone_time_matrix = None
         self.demand_matrix = None
-        self.sp = 2 #speed factor
+        self.sp = 1.5 #speed factor
+
+
+        '''----------------PARAMS----------------'''
+
+        self.n = None
+
+        self.C = None
+        self.C_0 = None
+        self.C_plus = None
+        self.N = None
+        self.K = None
+        self.D = None
+        self.Q = None
+        self.Q = None
+
+        self.CL = None
+        self.CH = None
+        self.QT = None
+        self.QD = None
+        self.TL = None
+        self.TH = None
+
+        self.cost_t = None
+        self.cost_td = None
+        self.M = None
+        self.theta = None
+        self.phi_low = None
+        self.phi_high = None
+        self.CD = None
     def get_data(self, instance_name):
         a1 = open(instance_name, 'r')
         # reading content of a1 and storing in a2
@@ -60,21 +84,13 @@ class Data():
                     self.distance_matrix[i][j] = self.distance_matrix[j][i]
                 else:
                     self.distance_matrix[i][j] = math.sqrt((self.X[j] - self.X[i]) ** 2 + (self.Y[j] - self.Y[i]) ** 2)
-        #mahatan matrix
-        self.m_distance_matrix = [[0 for i in range(self.num_of_customer)] for j in range(self.num_of_customer)]
-        for i in range(self.num_of_customer):
-            for j in range(self.num_of_customer):
-                if i == j:
-                    self.m_distance_matrix[i][j] = 0
-                elif i > j:  # since this matrix is symmetrical
-                    self.m_distance_matrix[i][j] = self.m_distance_matrix[j][i]
-                else:
-                    self.m_distance_matrix[i][j] = abs(self.X[j] - self.X[i]) + abs(self.Y[j] - self.Y[i])
+        self.truck_time_matrix = self.distance_matrix
         # initializing drone time matrix
         self.drone_time_matrix = [[0 for i in range(self.num_of_customer)] for j in range(self.num_of_customer)]
         for i in range(self.num_of_customer):
             for j in range(self.num_of_customer):
                 self.drone_time_matrix[i][j] = self.distance_matrix[i][j];
+
         for i in range(self.num_of_customer):
             for j in range(self.num_of_customer):
                 self.drone_time_matrix[i][j] = round(self.drone_time_matrix[i][j], 2)
@@ -82,17 +98,43 @@ class Data():
 
         for i in range(self.num_of_customer):
             self.distance_matrix[i].append(self.distance_matrix[i][0])
-        for i in range(self.num_of_customer):
-            self.m_distance_matrix[i].append(self.m_distance_matrix[i][0])
+
 
         for i in range(self.num_of_customer):
             self.drone_time_matrix[i].append(self.drone_time_matrix[i][0])
         # initializing drone time matrix
         for i in range(self.num_of_customer):
             for j in range(self.num_of_customer):
-                self.drone_time_matrix[i][j] = self.drone_time_matrix / self.sp
+                self.drone_time_matrix[i][j] = self.drone_time_matrix[i][j] / self.sp
         for i in range(self.num_of_customer):
             for j in range(self.num_of_customer):
                 self.drone_time_matrix[i][j] = round(self.drone_time_matrix[i][j], 2)
+        self.update_params()
 
+    def update_params(self):
+        self.n = self.num_of_customer - 1
 
+        self.C = [i for i in range(1, self.n + 1)]
+        self.C_0 = [i for i in range(0, self.n + 1)]
+        self.C_plus = [i for i in range(1, self.n + 2)]
+        self.N = [i for i in range(0, self.n + 2)]
+        self.K = [i for i in range(self.num_of_truck)]
+        self.D = [i for i in range(self.num_of_drone)]
+        self.Q = self.demand_matrix
+        self.Q = self.demand_matrix
+        self.Q.append(0)
+        self.CL = [i for i in range(5, 10)]
+        self.CH = [i for i in range(1, 5)]
+        self.QT = self.truck_capacity
+        self.QD = 17
+        self.TL = 50
+        self.TH = 100
+        self.sp = 2
+        self.cost_t = self.m_distance_matrix
+        self.cost_td = self.distance_matrix
+        self.M = 10000000
+        self.theta = 1
+        self.phi_low = 0.002
+        self.phi_high = 0.02
+        self.sp = 1.5
+        self.CD = self.C
