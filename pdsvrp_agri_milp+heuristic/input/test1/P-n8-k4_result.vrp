@@ -1,0 +1,10 @@
+
+theta = 1
+
+QD = 20
+sp = 2
+1 drone
+vrpd = 142.2 / time 0.28
+cvrp = 143.83 /time 0.17
+
+theta = 0.5

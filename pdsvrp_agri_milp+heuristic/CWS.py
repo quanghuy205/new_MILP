@@ -96,7 +96,7 @@ def mergeRoutes(i, j, routes):
     routes.remove(s)  # remove s
     routes.remove(e)  # remove e
     routes.append(e + s)
-
+def
 
 def insertDepot(routes):
 

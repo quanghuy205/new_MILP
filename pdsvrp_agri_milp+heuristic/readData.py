@@ -6,8 +6,7 @@ class Data():
         self.X = None
         self.Y = None
         self.num_of_truck = 2
-        self.num_of_cargo_drone = 1
-        self.num_of_drone = 2
+        self.num_of_drone = 1
         self.truck_capacity = None
         self.small_drone_capacity = None
         self.distance_matrix = None
@@ -15,7 +14,7 @@ class Data():
         self.truck_time_matrix = None
         self.drone_time_matrix = None
         self.demand_matrix = None
-        self.sp = 1.5 #speed factor
+        self.sp = 2 #speed factor
 
 
         '''----------------PARAMS----------------'''
@@ -42,8 +41,6 @@ class Data():
         self.cost_td = None
         self.M = None
         self.theta = None
-        self.phi_low = None
-        self.phi_high = None
         self.CD = None
     def get_data(self, instance_name):
         a1 = open(instance_name, 'r')
@@ -121,20 +118,20 @@ class Data():
         self.K = [i for i in range(self.num_of_truck)]
         self.D = [i for i in range(self.num_of_drone)]
         self.Q = self.demand_matrix
-        self.Q = self.demand_matrix
+
         self.Q.append(0)
-        self.CL = [i for i in range(5, 10)]
-        self.CH = [i for i in range(1, 5)]
+
         self.QT = self.truck_capacity
-        self.QD = 17
-        self.TL = 50
-        self.TH = 100
-        self.sp = 2
-        self.cost_t = self.m_distance_matrix
+        self.QD = 19
+        # self.TL = 50
+        # self.TH = 100
+
+        self.cost_t = self.distance_matrix
         self.cost_td = self.distance_matrix
         self.M = 10000000
-        self.theta = 1
-        self.phi_low = 0.002
-        self.phi_high = 0.02
-        self.sp = 1.5
-        self.CD = self.C
+        self.theta = 0
+        self.phi = 0.1
+        # self.phi_high = 0.02
+        self.sp = 2
+        self.CD = [i for i in self.C if self.QD >= self.Q[i]]
+
